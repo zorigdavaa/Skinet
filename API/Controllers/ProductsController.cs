@@ -9,16 +9,15 @@ using Core.Specifications;
 using InfraStructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using API.Errors;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+
+    public class ProductsController : BaseController
     {
-
-
         private readonly IGenericRepository<Product> _productRepo;
+        
         private readonly IGenericRepository<ProductBrand> _productBrandRepo;
         private readonly IGenericRepository<ProductType> _productTypeRepo;
         private readonly IMapper _mapper;
@@ -42,12 +41,17 @@ namespace API.Controllers
             return Ok(_mapper.Map<IReadOnlyList<Product>,IReadOnlyList<ProductToReturnDTO>>(products));
         }
         [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(ApiResponse),404)]
         public async Task<ActionResult<ProductToReturnDTO>> GetProduct(int id)
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(id);
             var product = await _productRepo.GetEnitityWithSpec(spec);
+            if (product==null)
+            {
+                return NotFound(new ApiResponse(404));
+            }
             return _mapper.Map<Product,ProductToReturnDTO>(product);
-
         }
         [HttpGet("brands")]
         public async Task<ActionResult<List<ProductBrand>>> GetBrands()
