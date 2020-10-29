@@ -45,6 +45,13 @@ namespace API
                 
             });
             services.AddSwaggerDocumentation();
+            services.AddCors(opt=>
+            {
+                opt.AddPolicy("CorsPolicy",policy=>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+                });
+            });
 
         }
 
@@ -57,9 +64,11 @@ namespace API
             // }
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseHttpsRedirection();
+            
             app.UseStatusCodePagesWithReExecute("/error/{0}");
             app.UseRouting();
             app.UseStaticFiles();
+            app.UseCors("CorsPolicy");
             app.UseSwaggerDocumentation();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
