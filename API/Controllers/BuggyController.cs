@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [ApiExplorerSettings(IgnoreApi=true)]
     public class BuggyController : BaseController
     {
         private readonly StoreContext _context;
