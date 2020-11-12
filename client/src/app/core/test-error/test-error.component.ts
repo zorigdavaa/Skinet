@@ -49,5 +49,4 @@ export class TestErrorComponent implements OnInit {
       this.ValidationErrors = err.errors;
     });
   }
-
 }

@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { BreadcrumbService } from 'xng-breadcrumb';
 import { IBrand } from '../shared/Models/Brands';
 import { IProduct } from '../shared/Models/products';
 import { ShopParams } from '../shared/Models/shopParams';
@@ -11,7 +12,7 @@ import { ShopService } from './shop.service';
   styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
-  @ViewChild('search', {static: true}) searchTerm: ElementRef;
+  @ViewChild('search', {static: false}) searchTerm: ElementRef;
   products: IProduct[];
   brands: IBrand[];
   types: IType[];
@@ -22,7 +23,8 @@ export class ShopComponent implements OnInit {
     {name: 'Price: Low to High', value : 'priceAsc'},
     {name: 'Price: High to Low', value : 'priceDesc'}
   ];
-  constructor(private shopService: ShopService) { }
+  constructor(private shopService: ShopService) {
+  }
 
   ngOnInit(): void {
     this.getProducts();

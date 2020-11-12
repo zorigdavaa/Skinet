@@ -1,10 +1,13 @@
-<button class="btn btn-outline-primary" (click)="get404Error()">Get 404</button>
-<button class="btn btn-outline-primary" (click)="get500Error()">Get 500</button>
-<button class="btn btn-outline-primary" (click)="getMathError()">Get Math</button>
-<button class="btn btn-outline-primary" (click)="get400Error()">Get 400</button>
-<button class="btn btn-outline-primary" (click)="get404ValidationError()">Get 404 Val</button>
-<div class="row mt5" *ngIf="this.ValidationErrors">
-    <ul class="text-danger">
-        <li *ngFor="let error of ValidationErrors">{{error}}</li>
-    </ul>
+<div class="container">
+
+    <button class="btn btn-outline-primary" (click)="get404Error()">Get 404</button>
+    <button class="btn btn-outline-primary" (click)="get500Error()">Get 500</button>
+    <button class="btn btn-outline-primary" (click)="getMathError()">Get Math</button>
+    <button class="btn btn-outline-primary" (click)="get400Error()">Get 400</button>
+    <button class="btn btn-outline-primary" (click)="get404ValidationError()">Get 404 Val</button>
+    <div class="row mt5" *ngIf="this.ValidationErrors">
+        <ul class="text-danger">
+            <li *ngFor="let error of ValidationErrors">{{error}}</li>
+        </ul>
+    </div>
 </div>
