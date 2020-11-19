@@ -33,8 +33,8 @@ namespace API.Controllers
             _productRepo = productRepo;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<Pagination<ProductToReturnDTO>>> GetProducts([FromQuery] ProductSpecParams productParams)
+        [HttpGet()]
+        public async Task<ActionResult<Pagination<ProductToReturnDTO>>> GetProducts(ProductSpecParams productParams)
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
             var countSpec= new ProductWithFiltersForCountSpecification(productParams);
