@@ -20,6 +20,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using API.Extensions;
 using StackExchange.Redis;
+using InfraStructure.Identity;
 
 namespace API
 {
@@ -37,8 +38,12 @@ namespace API
         {
             services.AddControllers();
             services.AddApplicationServices();
+            services.AddIdentityServices(_config);
             services.AddDbContextPool<StoreContext>(x =>
                 x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+            services.AddDbContextPool<AppIdentityDBContext>(x=> {
+                x.UseSqlite(_config.GetConnectionString("IdentityConnection"));
+            });
             services.AddSingleton<IConnectionMultiplexer>(c => {
                 var configuration = ConfigurationOptions.Parse(
                     _config.GetConnectionString("Redis"), true);
@@ -50,7 +55,6 @@ namespace API
                 config.AddDebug();
                 
             });
-            
             services.AddSwaggerDocumentation();
             services.AddSwaggerGen(c=>{
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First ());
@@ -72,6 +76,7 @@ namespace API
             // {
             //     app.UseDeveloperExceptionPage();
             // }
+            //Exceoption Middleware will handle exceptions
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseHttpsRedirection();
             
@@ -80,6 +85,7 @@ namespace API
             app.UseStaticFiles();
             app.UseCors("CorsPolicy");
             app.UseSwaggerDocumentation();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

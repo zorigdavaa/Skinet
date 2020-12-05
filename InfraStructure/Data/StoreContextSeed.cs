@@ -48,7 +48,6 @@ namespace InfraStructure.Data
                     }
                     await context.SaveChangesAsync();
                 }
-
             }
             catch (System.Exception ex)
             {
