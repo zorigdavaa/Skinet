@@ -15,6 +15,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Account controller is identity controller
+    /// </summary>
     public class AccountController : BaseController
     {
         private readonly UserManager<AppUser> _userManager;
@@ -92,6 +95,11 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
+            var isEmailUsed = await CheckEmailExistrAsync(registerDto.Email);
+            if (isEmailUsed.Value)
+            {
+                return BadRequest(new ApiValidationErrorResponse{ Errors= new []{"Email Addres is in user"}});
+            }
             var user = new AppUser 
             {
                 DisplayName = registerDto.DisplayName,
