@@ -1,0 +1,13 @@
+<div class="d-flex justify-content-center mt-5">
+  <div class="col-3">
+    <div class="text-center mb-4">
+      <H1 class="h3 mb-3">Login</H1>
+    </div>
+
+    <form class="form-signin" [formGroup]="loginForms" (ngSubmit)="submit()">
+      <app-text-input formControlName="email" [label]="'Email Address'" ></app-text-input>
+      <app-text-input formControlName="password" [label]="'Password'" [type]="'password'"></app-text-input>
+      <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="loginForms.invalid">Sign in</button>
+    </form>
+  </div>
+</div>

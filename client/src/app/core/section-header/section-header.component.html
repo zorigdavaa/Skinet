@@ -1,7 +1,7 @@
 <ng-container *ngIf="(breadcrumb$ | async) as breadCrumbs">
-  <section *ngIf="breadCrumbs.length>0 && breadCrumbs[breadCrumbs.length-1]" class="py-5" style="margin-top: 105px; background-color: #cacaca">
+  <section *ngIf="breadCrumbs.length>0 && breadCrumbs[breadCrumbs.length-1]" style="margin-top: 100px; background-color: #cacaca">
     <div class="container">
-        <div class="row d-flex align-items-center">
+        <div class="row d-flex">
             <div class="col-9">
               <h1>
                 {{breadCrumbs.length>0 && breadCrumbs[breadCrumbs.length-1].label | titlecase}}
