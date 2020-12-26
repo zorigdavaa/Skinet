@@ -15,9 +15,6 @@ namespace InfraStructure.Data
         {
             _context = context;
         }
-
-
-
         public async Task<IReadOnlyList<T>> GetAllListAsync()
         {
             return await _context.Set<T>().ToListAsync();
@@ -44,7 +41,22 @@ namespace InfraStructure.Data
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
             return SpecificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable(), spec);
+        }
+        public void Add(T entity)
+        {
+            _context.Add(entity);
+        }
 
+        public void Update(T entity)
+        {
+            // _context.Set<T>().Update(entity);
+            _context.Set<T>().Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
+        }
+
+        public void Delete(T entity)
+        {
+            _context.Remove(entity);
         }
     }
 }
