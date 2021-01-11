@@ -56,9 +56,9 @@ namespace API
                 
             });
             services.AddSwaggerDocumentation();
-            services.AddSwaggerGen(c=>{
-                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First ());
-            });
+            // services.AddSwaggerGen(c=>{
+            //     c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First ());
+            // });
             services.AddCors(opt=>
             {
                 opt.AddPolicy("CorsPolicy",policy=>
@@ -84,9 +84,10 @@ namespace API
             app.UseRouting();
             app.UseStaticFiles();
             app.UseCors("CorsPolicy");
-            app.UseSwaggerDocumentation();
+
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSwaggerDocumentation();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

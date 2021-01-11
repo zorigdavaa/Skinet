@@ -23,8 +23,12 @@ namespace API.Controllers
             _mapper = mapper;
             _orderService = orderService;
         }
+
+        ///<summary>
+        ///Create an order
+        ///</summary>
         [HttpPost]
-        public async Task<ActionResult<OrderToReturnDto>> CreateOrder(OrderDto orderDto)
+        public async Task<ActionResult<OrderToReturnDto>> CreateOrder([FromBody] OrderDto orderDto)
         {
             var email = HttpContext.User?.RetrieveEmailFromClaimsPrincipal();
             var address = _mapper.Map<AddressDto,Address>(orderDto.ShiptoAddress);
