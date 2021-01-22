@@ -12,14 +12,17 @@ namespace InfraStructure.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBasketRepository _basketRepo;
+        private readonly IPaymentService _paymentService;
 
         public OrderService(
             IUnitOfWork unitOfWork,
-            IBasketRepository basketRepo
+            IBasketRepository basketRepo,
+            IPaymentService paymentService
         )
         {
             _unitOfWork = unitOfWork;
             _basketRepo = basketRepo;
+            _paymentService = paymentService;
         }
 
         public async Task<Order> CreateOrderAsync(
@@ -48,8 +51,17 @@ namespace InfraStructure.Services
             var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(DeliveryMethodID);
             //calc Subtotals
             var subtotals = items.Sum(x=> x.Price * x.Quantity);
+            //to check see if an order already exists
+            var spec = new OrderByPaymentIntentIdSpecification(basket.PaymentIntentId);
+            var existingOrder = await _unitOfWork.Repository<Order>().GetEnitityWithSpec(spec);
+            if (existingOrder != null)
+            {
+                _unitOfWork.Repository<Order>().Delete(existingOrder);
+                await _paymentService.CreateOrUpdatePaymentIntent(basket.PaymentIntentId);
+            }
+
             //create order
-            var order = new Order(items,buyerEmail,shippingAddress, deliveryMethod, subtotals);
+            var order = new Order(items,buyerEmail,shippingAddress, deliveryMethod, subtotals, basket.PaymentIntentId);
             //TODO: save to db
             _unitOfWork.Repository<Order>().Add(order);
             var result = await _unitOfWork.Complete();
@@ -57,8 +69,8 @@ namespace InfraStructure.Services
             {
                 return null;
             }
-            //delete Basket since it is ordered
-            await _basketRepo.DeleteBasketAsync(BasketId);
+            // //delete Basket since it is ordered
+            // await _basketRepo.DeleteBasketAsync(BasketId);
             //return the order
             return order;
         }

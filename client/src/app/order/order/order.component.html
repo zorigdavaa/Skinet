@@ -1,0 +1,23 @@
+<div class="container p-2">
+
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>Order</th>
+        <th>Date</th>
+        <th>Total</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let order of orders">
+        <tr (click)="viewOrder(order)" style="cursor: pointer;">
+          <td># {{order.id}}</td>
+          <td>{{order.orderDate}}</td>
+          <td>{{order.total}}</td>
+          <td>{{order.status}}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,14 @@
+<div class="container">
+  <div *ngIf="!order">There is no order with such id;</div>
+  <div *ngIf="order">
+    <div class="row">
+      <div class="col-8">
+        <!-- orderiig basket bolgood ene ruu shideh heregtei gej bodjiin -->
+        <app-basket-summary [basket]="basket" [showButtons]="false"></app-basket-summary>
+      </div>
+      <div class="col-4">
+        <app-order-totals [order]="order"></app-order-totals>
+      </div>
+    </div>
+  </div>
+</div>

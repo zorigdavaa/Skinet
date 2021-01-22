@@ -5,18 +5,18 @@
     <p class="font-italic mb-4">
         Shipping costs will be added depending on the choices during checkout
     </p>
-    <ul class="list-unstyled mb-4" *ngIf="(basketTotal$ | async) as totals">
+    <ul class="list-unstyled mb-4" *ngIf="basketTotal">
         <li class="d-flex justify-content-between py-3 border-bottom">
             <strong class="text-muted">Order subtotal</strong>
-            <strong>{{totals.subtotal|currency}}</strong>
+            <strong>{{basketTotal.subtotal|currency}}</strong>
         </li>
         <li class="d-flex justify-content-between py-3 border-bottom">
             <strong class="text-muted">Shipping and Handling </strong>
-            <strong>{{totals.shipping|currency}}</strong>
+            <strong>{{basketTotal.shipping|currency}}</strong>
         </li>
         <li class="d-flex justify-content-between py-3 border-bottom">
             <strong class="text-muted">Total</strong>
-            <strong>{{totals.total|currency:'MNT':'₮'}}</strong>
+            <strong>{{basketTotal.total|currency:'MNT':'₮'}}</strong>
         </li>
     </ul>
 </div>

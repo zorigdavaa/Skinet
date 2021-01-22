@@ -13,11 +13,17 @@ export class BasketSummaryComponent implements OnInit {
   @Output() decrement: EventEmitter<IBasketItem> = new EventEmitter<IBasketItem>();
   @Output() remove: EventEmitter<IBasketItem> = new EventEmitter<IBasketItem>();
   @Input() showButtons = true;
+  @Input() basket;
   basket$: Observable<IBasket>
   constructor(private basketService: BasketService) { }
 
   ngOnInit(): void {
-    this.basket$ = this.basketService.basket$;
+    if (!this.basket) {
+      this.basket$ = this.basketService.basket$;
+      this.basket$.subscribe((basket)=>{
+        this.basket = basket;
+      })
+    }
   }
   decrementItem(item: IBasketItem) {
     this.decrement.emit(item)

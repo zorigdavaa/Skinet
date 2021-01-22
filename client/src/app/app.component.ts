@@ -24,7 +24,6 @@ export class AppComponent implements OnInit {
     if (token) {
       this.accountService.loadCurrentUser(token).subscribe(
         (user) => {
-          console.log('user loaded ' + user);
           this.router.navigateByUrl('/shop');
         },
         (err) => {
@@ -45,8 +44,6 @@ export class AppComponent implements OnInit {
     if (basketId) {
       this.basketService.getBasket(basketId).subscribe(
         (basket) => {
-          console.log(basket);
-          console.log('basket initialized');
         },
         (err) => {
           console.log(err);

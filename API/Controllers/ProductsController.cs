@@ -14,6 +14,7 @@ using API.Helper;
 
 namespace API.Controllers
 {
+    [Cached(600)]
     public class ProductsController : BaseController
     {
         private readonly IGenericRepository<Product> _productRepo;
